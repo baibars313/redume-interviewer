@@ -1,0 +1,1 @@
+export  const API_URL="https://3.110.172.58";
