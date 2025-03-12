@@ -1,1 +1,1 @@
-export  const API_URL="https://app.hubinterview.com/";
+export  const API_URL="https://app.hubinterview.com";
