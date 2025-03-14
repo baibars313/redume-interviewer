@@ -49,9 +49,8 @@ const ResumeStep = ({ data, onNext }) => {
           Upload
         </label>
         <input id="file" type="file" onChange={(e) => setFile(e.target.files[0])} className="hidden" />
-        {file && <p className="text-gray-600 mt-2">{file.name}</p>}
       </div>
-
+      {file && <p className="text-gray-600 mt-2 text-center my-4">{file.name}</p>}
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <button onClick={handleNext} className="bg-red-500 text-white py-2 px-4 rounded w-full">
         Next

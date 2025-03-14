@@ -245,7 +245,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
           answers: allTranscripts,
         });
         console.log(aiFeedbackResponse.data);
-        setFeedback(aiFeedbackResponse.data.feedback);
+        setFeedback(aiFeedbackResponse.data);
         setCompleted(true);
         
       } else {
@@ -358,7 +358,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
       ) : (
         <SessionLoader loading={loading} createSession={createSession} />
       )}
-      {completed && <FeedBack isOpen={completed} setIsOpen={setCompleted} text={feedback} />}
+      {completed && <FeedBack isOpen={completed} setIsOpen={setCompleted} feedback={feedback} questions={questions} />}
     </div>
   );
 };
