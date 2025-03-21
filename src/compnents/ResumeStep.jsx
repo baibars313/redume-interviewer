@@ -1,7 +1,7 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { AiOutlineCheckCircle } from "react-icons/ai";
-
-
+import { API_URL } from "./constant";
 
 // Step 1: Resume selection or upload.
 const ResumeStep = ({ data, onNext }) => {
@@ -10,7 +10,7 @@ const ResumeStep = ({ data, onNext }) => {
   const [error, setError] = useState("");
 
   // Dummy list of resumes for the select dropdown.
-  const resumes = ["Resume1.pdf", "Resume2.pdf", "Resume3.pdf"];
+  const [resumes, setResumes] = useState([]);
 
   const handleNext = () => {
     if (!selectedResume && !file) {
@@ -18,8 +18,17 @@ const ResumeStep = ({ data, onNext }) => {
       return;
     }
     setError("");
-    onNext({ resume: selectedResume || file });
+    onNext({ resume: selectedResume || file, previousSelected: selectedResume !== "" });
   };
+
+  const getResumes = async () => {
+    const res = await axios.get(`${API_URL}/api/sessions/?limit=5`);
+    setResumes(res.data.results);
+  };
+
+  useEffect(() => {
+    getResumes();
+  }, []);
 
   return (
     <div className="text-gray-900">
@@ -27,13 +36,19 @@ const ResumeStep = ({ data, onNext }) => {
       <div className="relative w-full mb-4">
         <select
           value={selectedResume}
-          onChange={(e) => setSelectedResume(e.target.value)}
+          onChange={(e) => {
+            setSelectedResume(e.target.value);
+            // Clear file if a resume is selected.
+            if (file) {
+              setFile(null);
+            }
+          }}
           className="border border-red-500 p-3 rounded-lg w-full appearance-none"
         >
           <option value="">Select Resume</option>
           {resumes.map((res, idx) => (
-            <option key={idx} value={res}>
-              {res}
+            <option key={idx} value={res.resume}>
+              {res.resume}
             </option>
           ))}
         </select>
@@ -44,23 +59,41 @@ const ResumeStep = ({ data, onNext }) => {
       </div>
       <h4 className="mb-2 text-center text-xl">Or upload a new resume</h4>
       <div className="bg-gray-100 p-4 rounded-lg text-center flex justify-between items-center my-4">
-        <p className="text-sm text-gray-600 mb-2">Upload your resume in PDF or DOCX format:</p>
-        <label htmlFor="file" className="bg-red-500 text-white py-2 px-4 rounded cursor-pointer">
+        <p className="text-sm text-gray-600 mb-2">
+          Upload your resume in PDF or DOCX format:
+        </p>
+        <label
+          htmlFor="file"
+          className="bg-red-500 text-white py-2 px-4 rounded cursor-pointer"
+        >
           Upload
         </label>
-        <input id="file" type="file" onChange={(e) => setFile(e.target.files[0])} className="hidden" />
+        <input
+          id="file"
+          type="file"
+          onChange={(e) => {
+            const uploadedFile = e.target.files[0];
+            setFile(uploadedFile);
+            // Clear resume selection if a file is uploaded.
+            if (selectedResume) {
+              setSelectedResume("");
+            }
+          }}
+          className="hidden"
+        />
       </div>
-      {file && <p className="text-gray-600 mt-2 text-center my-4">{file.name}</p>}
+      {file && (
+        <p className="text-gray-600 mt-2 text-center my-4">{file.name}</p>
+      )}
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      <button onClick={handleNext} className="bg-red-500 text-white py-2 px-4 rounded w-full">
+      <button
+        onClick={handleNext}
+        className="bg-red-500 text-white py-2 px-4 rounded w-full"
+      >
         Next
       </button>
     </div>
   );
 };
-
-
-
-
 
 export default ResumeStep;
