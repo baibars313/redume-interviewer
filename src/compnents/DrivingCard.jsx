@@ -6,7 +6,7 @@ import JobDescriptionStep from "./JobDescriptionStep";
 import QuestionStep from "./QuestionStep";
 
 // The main container that holds the stepper and card and manages state.
-const StepperCard = () => {
+const DrivingStepperCard = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [collectedData, setCollectedData] = useState({});
 
@@ -56,4 +56,4 @@ const StepperCard = () => {
   );
 };
 
-export default StepperCard;
+export default DrivingStepperCard;

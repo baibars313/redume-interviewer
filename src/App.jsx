@@ -3,8 +3,8 @@ import StepperCard from "./compnents/StepperCard";
 import SessionTable from "./pages/Sessions";
 import { Route, Routes } from "react-router";
 import Navbar from "./compnents/Navbar";
-import AudioRecorder from "./compnents/Recorder";
 import SessionSummary from "./compnents/Details";
+import DrivingStepperCard from "./compnents/DrivingCard";
 
 export default function App() {
   return (
@@ -12,7 +12,7 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<StepperCard />} />
-        <Route path="/driving" element={<StepperCard />} />
+        <Route path="/driving" element={<DrivingStepperCard />} />
 
         <Route path="/sessions" element={<SessionTable />} />
         

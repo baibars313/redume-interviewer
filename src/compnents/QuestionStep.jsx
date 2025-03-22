@@ -126,7 +126,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
   return (
     <>
     {completed ? (
-       <SessionSummary data={data} />
+       <SessionSummary sessionId={sessionId} />
     ) : (
       <div>
       {sessionId ? (
