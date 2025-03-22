@@ -19,18 +19,20 @@ jobs:
       - name: Build React App
         run: npm run build
 
+      # Setup SSH key from PEM
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.LIGHTSAIL_PEM }}" | tr -d '\r' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy Build Files via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
-          key_path: ~/.ssh/id_rsa
+          key: "${{ secrets.LIGHTSAIL_PEM }}"
           source: "build/"
           target: "/var/www/react-app/build"
           strip_components: 1
@@ -40,6 +42,6 @@ jobs:
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
-          key_path: ~/.ssh/id_rsa
+          key: "${{ secrets.LIGHTSAIL_PEM }}"
           script: |
             sudo systemctl reload nginx
