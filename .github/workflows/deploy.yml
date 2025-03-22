@@ -23,21 +23,21 @@ jobs:
       - name: List Build Files
         run: ls -la dist/
 
-      # Setup SSH key from PEM
+      # Setup SSH key from PEM using absolute path
       - name: Setup SSH Key
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.LIGHTSAIL_PEM }}" | tr -d '\r' > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
+          mkdir -p /home/runner/.ssh
+          echo "${{ secrets.LIGHTSAIL_PEM }}" | tr -d '\r' > /home/runner/.ssh/id_rsa
+          chmod 600 /home/runner/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> /home/runner/.ssh/known_hosts
 
       - name: Deploy Build Files via SCP
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
-          key_path: ~/.ssh/id_rsa
-          source: dist/         # Updated to match Vite's output folder
+          key_path: /home/runner/.ssh/id_rsa
+          source: dist/         # Vite's default output folder
           target: /var/www/react-app/dist
           strip_components: 1
 
@@ -46,6 +46,6 @@ jobs:
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
-          key_path: ~/.ssh/id_rsa
+          key_path: /home/runner/.ssh/id_rsa
           script: |
             sudo systemctl reload nginx
