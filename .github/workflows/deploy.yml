@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: "${{ secrets.LIGHTSAIL_PEM }}"
           source: "dist/"
-          target: "/var/www/react-app/dist"
+          target: "/home/ubuntu/react-app/dist"
           strip_components: 1
 
       - name: Reload NGINX via SSH
