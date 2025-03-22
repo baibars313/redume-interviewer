@@ -1,4 +1,4 @@
-name: Deploy React App to Lightsail
+name: Deploy React Vite App to Lightsail
 
 on:
   push:
@@ -16,8 +16,12 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build React App
+      - name: Build Vite App
         run: npm run build
+
+      # List build files for debugging purposes
+      - name: List Build Files
+        run: ls -la dist/
 
       # Setup SSH key from PEM
       - name: Setup SSH Key
@@ -33,8 +37,8 @@ jobs:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
           key_path: ~/.ssh/id_rsa
-          source: "build/"
-          target: "/var/www/react-app/build"
+          source: dist/         # Updated to match Vite's output folder
+          target: /var/www/react-app/dist
           strip_components: 1
 
       - name: Reload NGINX via SSH
