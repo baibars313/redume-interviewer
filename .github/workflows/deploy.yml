@@ -3,7 +3,7 @@ name: Deploy React Vite App to Lightsail
 on:
   push:
     branches:
-      - master  # Change if you use a different branch
+      - master  # Adjust if you use a different branch
 
 jobs:
   build-and-deploy:
@@ -19,33 +19,30 @@ jobs:
       - name: Build Vite App
         run: npm run build
 
-      # List build files for debugging purposes
       - name: List Build Files
         run: ls -la dist/
 
-      # Setup SSH key from PEM using absolute path
-      - name: Setup SSH Key
+      # Optional: Configure known_hosts for SSH (ensures the host is recognized)
+      - name: Setup SSH known_hosts
         run: |
-          mkdir -p /home/runner/.ssh
-          echo "${{ secrets.LIGHTSAIL_PEM }}" | tr -d '\r' > /home/runner/.ssh/id_rsa
-          chmod 600 /home/runner/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> /home/runner/.ssh/known_hosts
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
 
       - name: Deploy Build Files via SCP
-        uses: appleboy/scp-action@v0.1.7
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
-          key_path: /home/runner/.ssh/id_rsa
-          source: dist/         # Vite's default output folder
-          target: /var/www/react-app/dist
+          key: "${{ secrets.LIGHTSAIL_PEM }}"
+          source: "dist/"
+          target: "/var/www/react-app/dist"
           strip_components: 1
 
       - name: Reload NGINX via SSH
-        uses: appleboy/ssh-action@v0.1.7
+        uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
-          key_path: /home/runner/.ssh/id_rsa
+          key: "${{ secrets.LIGHTSAIL_PEM }}"
           script: |
             sudo systemctl reload nginx
