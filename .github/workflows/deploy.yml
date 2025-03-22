@@ -45,4 +45,4 @@ jobs:
           username: ${{ secrets.LIGHTSAIL_USER }}
           key: "${{ secrets.LIGHTSAIL_PEM }}"
           script: |
-            sudo systemctl reload nginx
+            sudo systemctl reload nginx && sudo systemctl restart nginx
