@@ -5,7 +5,7 @@ import { API_URL } from "./constant";
 import AudioRecorder from "./Recorder";
 import SessionSummary from "./Details";
 
-const QuestionStep = ({ data, onNext, onBack }) => {
+const DrivingQuestionStep = ({ data, onNext, onBack }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [feedback, setFeedback] = useState("");
@@ -226,4 +226,4 @@ const QuestionStep = ({ data, onNext, onBack }) => {
   );
 };
 
-export default QuestionStep;
+export default DrivingQuestionStep;

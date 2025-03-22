@@ -4,6 +4,7 @@ import ResumeStep from "./ResumeStep";
 import JobTitleStep from "./JobTitleStep";
 import JobDescriptionStep from "./JobDescriptionStep";
 import QuestionStep from "./QuestionStep";
+import DrivingQuestionStep from "./DrivingQuestion";
 
 // The main container that holds the stepper and card and manages state.
 const DrivingStepperCard = () => {
@@ -49,7 +50,7 @@ const DrivingStepperCard = () => {
           <JobDescriptionStep data={collectedData} onNext={nextStep} onBack={prevStep} handlesubmit={handleFinalSubmit} />
         )}
         {currentStep === 4 && (
-          <QuestionStep data={collectedData} onNext={handleFinalSubmit} onBack={prevStep} />
+          <DrivingQuestionStep data={collectedData} onNext={handleFinalSubmit} onBack={prevStep} />
         )}
       </div>
     </div>
