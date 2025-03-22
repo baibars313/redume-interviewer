@@ -32,7 +32,7 @@ jobs:
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
-          key: "${{ secrets.LIGHTSAIL_PEM }}"
+          key_path: ~/.ssh/id_rsa
           source: "build/"
           target: "/var/www/react-app/build"
           strip_components: 1
@@ -42,6 +42,6 @@ jobs:
         with:
           host: ${{ secrets.LIGHTSAIL_HOST }}
           username: ${{ secrets.LIGHTSAIL_USER }}
-          key: "${{ secrets.LIGHTSAIL_PEM }}"
+          key_path: ~/.ssh/id_rsa
           script: |
             sudo systemctl reload nginx
