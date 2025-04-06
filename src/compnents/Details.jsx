@@ -19,6 +19,7 @@ const SessionSummary = ({ sessionId }) => {
             const res = await axios.get(`${API_URL}/api/session/${sessionId}/`);
             setData(res.data);
             setLoadingSession(false);
+            console.log(res.data);
         } catch (err) {
             setErrorSession('Error fetching session details.');
             setLoadingSession(false);
@@ -112,7 +113,9 @@ const SessionSummary = ({ sessionId }) => {
                                         // <p className="mt-2 text-gray-600 italic">Transcript: {q.transcript}</p>
                                     )} */}
                                     {q.feedback && (
-                                        <p className="mt-2 text-green-600 font-medium">Feedback: <ReactMarkdown>{q.feedback}</ReactMarkdown> </p>
+                                    <>
+                                     <ReactMarkdown>{q.feedback}</ReactMarkdown> 
+                                    </>
                                     )}
                                 </div>
                             ))}
@@ -123,7 +126,7 @@ const SessionSummary = ({ sessionId }) => {
                     <div className="mt-6">
                         <h2 className="text-2xl font-semibold text-red-500 mb-4">Overall Feedback</h2>
                         <div className="p-4 rounded-lg shadow-sm hover:shadow-md transition duration-300">
-                            <ReactMarkdown>{data.overall_feedback}</ReactMarkdown>
+                            <ReactMarkdown>{data.feedback}</ReactMarkdown>
                         </div>
                     </div>
                 </div>
