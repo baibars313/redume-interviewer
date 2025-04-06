@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
-import PrevousDescription from "./PrevousDescription";
-import { API_URL } from "./constant";
+import toast from "react-hot-toast";
 
-const JobDescriptionStep = ({ data, onNext, onBack }) => {
+const JobDescriptionStep = ({ data, onNext, onBack, title }) => {
   const [jobDescription, setJobDescription] = useState(data.jobDescription || "");
   const [error, setError] = useState("");
-  const [isGenerating, setIsGenerating] = useState(false);
+
 
   // Helper function to count words in a string
   const countWords = (text) =>
@@ -15,43 +13,25 @@ const JobDescriptionStep = ({ data, onNext, onBack }) => {
   const wordCount = countWords(jobDescription);
 
   const handleNext = () => {
-    // Validate that the job description is at least 100 words
-    if (wordCount < 30) {
-      setError("Job description must be at least 100 words.");
-      return;
+    if (!title.trim()) {
+      toast.error('Please add Job title it is required!!')  
+      return
     }
-    setError("");
     onNext({ jobDescription });
   };
 
-  const generateJobDescription = async () => {
-    try {
-      setIsGenerating(true);
-      setError("");
-
-      const response = await axios.post(`${API_URL}/generate_jd/`, {
-        job_title: jobDescription || "",
-      });
-
-      setJobDescription(response.data.job_description);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to generate job description. Please try again.");
-    } finally {
-      setIsGenerating(false);
-    }
-  };
+  
 
   return (
-    <div className="p-4 bg-white rounded shadow-md">
+    <div className="p-4 my-4 bg-white ">
       {data.jobDescription && (
         <div className="mb-4">
-          <p className="font-bold text-gray-700">Existing Job Description:</p>
+          {/* <p className="font-bold text-gray-700">Existing Job Description:</p> */}
           {/* Optionally, display the existing description */}
         </div>
       )}
 
-      <PrevousDescription setJobDescription={setJobDescription} />
+      {/* <PrevousDescription setJobDescription={setJobDescription} /> */}
 
       <p className="mb-2 text-gray-700">
         Add or update job description (must be at least 100 words). You can include details about your role and expertise.
@@ -66,14 +46,7 @@ const JobDescriptionStep = ({ data, onNext, onBack }) => {
           className="border border-gray-300 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
           rows={8}
         ></textarea>
-        <button
-          type="button"
-          onClick={generateJobDescription}
-          disabled={isGenerating}
-          className="absolute bottom-3 right-3 bg-red-500 text-white py-1 px-3 rounded text-sm hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isGenerating ? "Generating..." : "Generate"}
-        </button>
+       
       </div>
       <div className="flex justify-end text-sm mb-4">
         <span className={`${wordCount < 30 ? "text-red-500" : "text-gray-500"}`}>

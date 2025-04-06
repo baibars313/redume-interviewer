@@ -7,7 +7,7 @@ export default function Navbar() {
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Logo" />
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap text-red-600">Brand</span>
+                    <span className="self-center text-2xl font-semibold whitespace-nowrap text-red-600">HubInterview.com</span>
                 </Link>
                 <div className=" w-full md:block md:w-auto" id="navbar-default">
                     <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-red-200 rounded-lg bg-white md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent">

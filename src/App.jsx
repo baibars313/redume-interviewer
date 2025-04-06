@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router";
 import Navbar from "./compnents/Navbar";
 import DrivingStepperCard from "./compnents/DrivingCard";
 
+
 export default function App() {
   return (
     <div>
@@ -14,6 +15,7 @@ export default function App() {
         <Route path="/driving" element={<DrivingStepperCard />} />
         <Route path="/sessions" element={<SessionTable />} />
       </Routes>
+    <Toaster/>
     </div>
   );
 }
