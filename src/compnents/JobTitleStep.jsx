@@ -15,6 +15,7 @@ const JobTitleStep = ({ data, onNext, onBack, setData, submit }) => {
           <CustomSelect
             onSelect={(value) => {
               setJobTitle(value);
+              setData({ jobTitle: value });
             }}
             options={["Software Devloper", "CFO", "Sales Manager"]}
             placeholder="Select or Write Job Title"
