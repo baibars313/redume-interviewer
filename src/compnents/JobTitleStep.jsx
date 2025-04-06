@@ -23,10 +23,10 @@ const JobTitleStep = ({ data, onNext, onBack, setData, submit }) => {
         <div>
           <CustomSelect
             onSelect={(value) => {
-              setJobTitle(value);
+              console.log(value)
             }}
             options={["Amazon", "Google", "Microsoft"]}
-            placeholder="Select or Write Job Title"
+            placeholder="Select or Write Job Company"
           />
         </div>
       </div>
