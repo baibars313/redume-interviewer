@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Stepper from "./Stepper";
 import ResumeStep from "./ResumeStep";
 import JobTitleStep from "./JobTitleStep";
-import JobDescriptionStep from "./JobDescriptionStep";
 import QuestionStep from "./QuestionStep";
 
 // The main container that holds the stepper and card and manages state.
@@ -10,7 +9,7 @@ const StepperCard = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [collectedData, setCollectedData] = useState({});
 
-  const steps = ["Resume", "Job Title", "Job Description", "Questions"];
+  const steps = ["Resume", "Job Title", "Questions"];
 
   // Called when a step is successfully completed.
   const nextStep = (stepData) => {

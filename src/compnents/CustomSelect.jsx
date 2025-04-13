@@ -78,7 +78,8 @@ const CustomSelect = ({
 
         {/* Dropdown list with smooth animation */}
         {isOpen && (
-          <div className="absolute z-10 mt-1 w-full bg-white border border-red-600 rounded-md shadow-lg animate-fadeIn">
+          <div className="absolute z-10 mt-1 w-full max-w-sm bg-white border border-red-600 rounded-md shadow-lg animate-fadeIn">
+            
             {options.map((option, index) => (
               <div
                 key={index}
@@ -102,7 +103,7 @@ const CustomSelect = ({
               />
               <button
                 type="submit"
-                className="mt-2 w-full bg-red-600 text-white p-2 rounded-md hover:bg-red-700 transition-colors duration-300"
+                className="mt-2 w-full bg-primary text-white p-2 rounded-md hover:bg-red-700 transition-colors duration-300"
               >
                 Enter
               </button>

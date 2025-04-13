@@ -64,7 +64,7 @@ const ResumeStep = ({ data, onNext }) => {
         </p>
         <label
           htmlFor="file"
-          className="bg-red-500 text-white py-2 px-4 rounded cursor-pointer"
+          className="bg-primary text-white py-2 px-4 rounded cursor-pointer"
         >
           Upload
         </label>
@@ -88,7 +88,7 @@ const ResumeStep = ({ data, onNext }) => {
       {error && <p className="text-red-500 mb-4">{error}</p>}
       <button
         onClick={handleNext}
-        className="bg-red-500 text-white py-2 px-4 rounded w-full"
+        className="bg-primary text-white py-2 px-4 rounded w-full"
       >
         Next
       </button>

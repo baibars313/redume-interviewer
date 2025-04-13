@@ -13,14 +13,14 @@ const JobDescriptionStep = ({ data, onNext, onBack, title }) => {
   const wordCount = countWords(jobDescription);
 
   const handleNext = () => {
-    if (!title.trim()) {
-      toast.error('Please add Job title it is required!!')  
+    if (!title.trim() && questionsCount < 5) {
+      toast.error('Please add Job title and No. of questions it is required!!')
       return
     }
     onNext({ jobDescription });
   };
 
-  
+
 
   return (
     <div className="p-4 my-4 bg-white ">
@@ -46,7 +46,7 @@ const JobDescriptionStep = ({ data, onNext, onBack, title }) => {
           className="border border-gray-300 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
           rows={8}
         ></textarea>
-       
+
       </div>
       <div className="flex justify-end text-sm mb-4">
         <span className={`${wordCount < 30 ? "text-red-500" : "text-gray-500"}`}>
@@ -63,7 +63,7 @@ const JobDescriptionStep = ({ data, onNext, onBack, title }) => {
         </button>
         <button
           onClick={handleNext}
-          className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+          className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600"
         >
           Next
         </button>

@@ -176,7 +176,7 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
                     <button
                       onClick={handleSubmitAnswer}
                       disabled={!audioBlob || controlsDisabled || addingQuestion || generatingNewQuestion || generatingFeedback}
-                      className={`bg-red-500 text-white py-2 px-4 rounded transition flex justify-center items-center w-full text-center ${
+                      className={`bg-primary text-white py-2 px-4 rounded transition flex justify-center items-center w-full text-center ${
                         !audioBlob || controlsDisabled ? "opacity-50 cursor-not-allowed" : "hover:bg-red-600"
                       }`}
                     >
@@ -213,7 +213,7 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
               ) : (
                 <button
                   onClick={generateQuestions}
-                  className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition"
+                  className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600 transition"
                 >
                   Retry
                 </button>

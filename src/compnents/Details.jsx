@@ -70,7 +70,7 @@ const SessionSummary = ({ sessionId }) => {
                                 href={data.resume_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-red-500 mt-2 p-2 rounded-lg hover:bg-red-500 hover:text-white transition duration-300 shadow-sm"
+                                className="text-red-500 mt-2 p-2 rounded-lg hover:bg-primary hover:text-white transition duration-300 shadow-sm"
                             >
                                 <p className="flex items-center gap-2">
                                     <FaFilePdf className="text-red-500" />
