@@ -33,12 +33,13 @@ const JobTitleStep = ({ data, onNext, onBack, setData, submit }) => {
           />
         </div>
         <div>
-      <select
+
+        <select
         className="border border-red-500 text-red-500 rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-3.5"
+        value={data?.questionCount || ""}
         onChange={(e) => {
-          setData((prev) => ({ ...prev, questionCount: e.target.value }));
+          setData({ ...data, questionCount: parseInt(e.target.value) });
         }}
-        defaultValue=""
       >
         <option value="" disabled>Select a number</option>
         {Array.from({ length: 6 }, (_, i) => i + 5).map((num) => (
@@ -47,8 +48,7 @@ const JobTitleStep = ({ data, onNext, onBack, setData, submit }) => {
           </option>
         ))}
       </select>
-    </div>
-
+        </div>
 
 
       </div>
