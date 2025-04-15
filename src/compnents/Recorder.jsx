@@ -142,7 +142,7 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
       {/* Recorder */}
       <div className="bg-white shadow-2xl rounded-2xl p-6 space-y-4">
         <header className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-red-600 flex items-center gap-2">
+          <h1 className="text-sm font-bold text-red-600 flex items-center gap-2">
             <FaMicrophone /> Audio Recorder
           </h1>
           <p className="text-gray-500 text-sm">Time Left: {countdown}</p>
@@ -154,30 +154,30 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
         <div className="flex items-center justify-center gap-4 mt-4">
           <button
             onClick={handleRecord}
-            className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-full hover:scale-105 hover:bg-red-700 transition-all"
+            className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full hover:scale-105 hover:bg-red-700 transition-all"
           >
             {isRecording || isPaused ? (
               <>
-                <FaStop size={20} /> Stop
+                <FaStop size={15} /> Stop
               </>
             ) : (
               <>
-                <FaMicrophone size={20} /> Record
+                <FaMicrophone size={15} /> Record
               </>
             )}
           </button>
           {isRecording && (
             <button
               onClick={handlePause}
-              className="flex items-center gap-2 bg-white text-red-600 border border-red-600 px-6 py-3 rounded-full hover:scale-105 hover:bg-red-50 transition-all"
+              className="flex items-center gap-2 bg-white text-red-600 border border-red-600 px-4 py-2 rounded-full hover:scale-105 hover:bg-red-50 transition-all"
             >
               {isPaused ? (
                 <>
-                  <FaPlay size={20} /> Resume
+                  <FaPlay size={15} /> Resume
                 </>
               ) : (
                 <>
-                  <FaPause size={20} /> Pause
+                  <FaPause size={15} /> Pause
                 </>
               )}
             </button>
@@ -201,15 +201,15 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
           <div className="flex justify-center">
             <button
               onClick={togglePlayback}
-              className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-full hover:scale-105 hover:bg-red-700 transition-all"
+              className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full hover:scale-105 hover:bg-red-700 transition-all"
             >
               {isPlaying ? (
                 <>
-                  <FaPause size={20} /> Pause
+                  <FaPause size={15} /> Pause
                 </>
               ) : (
                 <>
-                  <FaPlay size={20} /> Play
+                  <FaPlay size={15} /> Play
                 </>
               )}
             </button>

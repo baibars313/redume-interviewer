@@ -50,9 +50,9 @@ const QuestionStep = ({ data, onNext, onBack }) => {
     setLoadingQuestions(false);
   };
 
-  useEffect(() => {
-    generateQuestions();
-  }, []);
+  // useEffect(() => {
+  //   generateQuestions();
+  // }, []);
 
   // Handle answer submission.
   const handleSubmitAnswer = async () => {
@@ -132,26 +132,24 @@ const QuestionStep = ({ data, onNext, onBack }) => {
 
   const controlsDisabled = completed;
   useEffect(() => {
-  console.log(data)
+    console.log(data)
   }
-  , []);
+    , []);
   return (
     <>
       {completed ? (
-        <SessionSummary sessionId={sessionId} feedback={feedback} />
+       <div>
+         <div className="flex justify-start">
+          <button className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600 transition" onClick={set}>
+
+          </button>
+         </div>
+         <SessionSummary sessionId={sessionId} feedback={feedback} />
+       </div>
       ) : (
-        <div className="relative">
+        <div className="flex justify-end">
           {/* Cross Icon as End Session Button (visible after session creation) */}
-          {sessionId && (
-            <div className="absolute top-0 right-0 m-4">
-              <button
-                onClick={() => setShowEndModal(true)}
-                className="text-gray-600 hover:text-gray-800 transition"
-              >
-                <FaTimes size={24} />
-              </button>
-            </div>
-          )}
+
 
           {sessionId ? (
             <>
@@ -160,9 +158,19 @@ const QuestionStep = ({ data, onNext, onBack }) => {
                   <FaSpinner className="animate-spin text-blue-500 mr-2" size={24} />
                 </div>
               ) : (
-                <div>
+                <div className="">
+                  {sessionId && (
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => setShowEndModal(true)}
+                        className="text-gray-600 hover:text-gray-800 transition"
+                      >
+                        <FaTimes className="text-red-500 border border-red-500 rounded-full" size={20} />
+                      </button>
+                    </div>
+                  )}
                   <p className="mb-2 font-medium text-center transition-all duration-500 ease-in-out">
-                    Question {currentQuestionIndex + 1}: {questions[currentQuestionIndex].question}
+                    Question {currentQuestionIndex + 1} of {questions.length}: {questions[currentQuestionIndex].question}
                   </p>
 
                   {/* Audio Recorder with built-in countdown */}
@@ -172,11 +180,10 @@ const QuestionStep = ({ data, onNext, onBack }) => {
                     <button
                       onClick={handleSubmitAnswer}
                       disabled={!audioBlob || controlsDisabled}
-                      className={`bg-primary text-white py-2 px-4 rounded transition flex justify-center items-center w-full text-center ${
-                        !audioBlob || controlsDisabled
-                          ? "opacity-50 cursor-not-allowed"
-                          : "hover:bg-red-600"
-                      }`}
+                      className={`bg-primary text-white py-2 px-4 rounded transition flex justify-center items-center w-full text-center ${!audioBlob || controlsDisabled
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:bg-red-600"
+                        }`}
                     >
                       {addingQuestion ? (
                         <FaSpinner className="animate-spin text-white mr-2" size={24} />
@@ -193,31 +200,25 @@ const QuestionStep = ({ data, onNext, onBack }) => {
                   )}
 
                   {/* Go Back Button */}
-                  <div className="mt-4 text-center">
-                    <button
-                      onClick={onBack}
-                      className="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500 transition"
-                    >
-                      Go Back
-                    </button>
-                  </div>
                 </div>
               )}
             </>
           ) : (
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex justify-center items-center ">
               {loadingQuestions ? (
                 <div className="flex items-center">
                   <FaSpinner className="animate-spin text-blue-500 mr-2" size={24} />
                   <p className="text-blue-900 mb-4">Creating session...</p>
                 </div>
               ) : (
-                <button
-                  onClick={generateQuestions}
-                  className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600 transition"
-                >
-                  Retry
-                </button>
+                <div className="flex justify-center">
+                  <button
+                    onClick={generateQuestions}
+                    className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600 transition"
+                  >
+                    Retry
+                  </button>
+                </div>
               )}
             </div>
           )}

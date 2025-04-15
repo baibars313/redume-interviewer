@@ -29,6 +29,10 @@ const UpdateStepperCard = () => {
       // Replace with your API call.
       alert("Data submitted successfully!");
     };
+    const goBack = () => {
+      setCurrentStep(1);
+      setCollectedData(null)
+    }
   
     return (
       <div className="min-h-screen bg-gray flex flex-col justify-center items-center text-gray-900 mx-4">
@@ -49,7 +53,7 @@ const UpdateStepperCard = () => {
             <JobDescriptionStep data={collectedData} onNext={nextStep} onBack={prevStep} handlesubmit={handleFinalSubmit} />
           )}
           {currentStep === 4 && (
-            <QuestionStep data={collectedData} onNext={handleFinalSubmit} onBack={prevStep} />
+            <QuestionStep data={collectedData} onNext={handleFinalSubmit} onBack={goBack} />
           )}
         </div>
       </div>

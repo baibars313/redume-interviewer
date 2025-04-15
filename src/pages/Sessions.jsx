@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaCalculator } from "react-icons/fa";
 import { API_URL } from "../compnents/constant";
 import SessionSummary from "../compnents/Details";
 
