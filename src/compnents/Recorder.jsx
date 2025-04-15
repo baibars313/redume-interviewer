@@ -3,7 +3,7 @@ import WaveSurfer from 'wavesurfer.js';
 import RecordPlugin from 'wavesurfer.js/dist/plugins/record.esm.js';
 import { FaMicrophone, FaStop, FaPause, FaPlay } from 'react-icons/fa';
 
-const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
+const AudioRecorder = ({ audioBlob, setAudioBlob, question }) => {
   const [wavesurfer, setWavesurfer] = useState(null);
   const [recordPlugin, setRecordPlugin] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -136,6 +136,12 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
     playbackWavesurfer.current.playPause();
     setIsPlaying(!isPlaying);
   };
+  useEffect(() => {
+    // Reset countdown and recorded time when question changes
+    setCurrentMs(0);
+    setCountdown("03:00");
+    setAudioBlob(null); // Optional: clear previous audio if needed
+  }, [question]);
 
   return (
     <div className="space-y-6">
@@ -149,7 +155,7 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
         </header>
 
         {/* Countdown Progress Bar */}
-        
+
 
         <div className="flex items-center justify-center gap-4 mt-4">
           <button

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../compnents/constant";
-import SessionSummary from "../compnents/Details";
+
+import { Link } from "react-router";
 
 const SessionTable = () => {
   const initialUrl = `${API_URL}/api/sessions/?limit=10&offset=0`;
@@ -10,10 +11,10 @@ const SessionTable = () => {
   const [nextPageUrl, setNextPageUrl] = useState(null);
   const [prevPageUrl, setPrevPageUrl] = useState(null);
   const [currentUrl, setCurrentUrl] = useState(initialUrl);
-  const [showDetail, setShowDetail] = useState(false);
-  const [selectedSessionId, setSelectedSessionId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorSessions, setErrorSessions] = useState(null);
+
+
 
   // Helper to enforce HTTPS and create absolute URLs.
   const getAbsoluteUrl = (url) => {
@@ -67,15 +68,7 @@ const SessionTable = () => {
   }, [searchTerm]);
 
   // Handlers for showing details.
-  const openDetail = (session) => {
-    setSelectedSessionId(session.session_id);
-    setShowDetail(true);
-  };
-
-  const closeDetail = () => {
-    setShowDetail(false);
-    setSelectedSessionId(null);
-  };
+ 
 
   // Handlers for API-driven pagination.
   const handleNextPage = () => {
@@ -89,25 +82,6 @@ const SessionTable = () => {
       setCurrentUrl(prevPageUrl);
     }
   };
-
-  // If detail view is open, show only the detail component.
-  if (showDetail && selectedSessionId) {
-    return (
-      <div className="min-h-screen bg-gray-100 p-6">
-        <div className="mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-          <div className=" py-8 px-2">
-            <button
-              onClick={closeDetail}
-              className="text-red-500 py-2 px-4 rounded-lg mb-4 p-2 shadow-md  hover:bg-red-600 hover:text-white font-semibold"
-            >
-               {"<"} Go Back
-            </button>
-            <SessionSummary sessionId={selectedSessionId} />
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex justify-center items-center">
@@ -174,12 +148,12 @@ const SessionTable = () => {
                       <td className="px-6 py-4">{session.title}</td>
                       <td className="px-6 py-4">{session.session_id}</td>
                       <td className="px-6 py-4">
-                        <button
-                          onClick={() => openDetail(session)}
+                        <Link
+                          to={`/sessiondetails?sessionId=${session.session_id}`}
                           className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition"
                         >
                           View Details
-                        </button>
+                        </Link>
                       </td>
                     </tr>
                   ))

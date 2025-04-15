@@ -10,7 +10,7 @@ export default function Navbar() {
                     {/* <span className="self-center text-2xl font-semibold whitespace-nowrap text-red-600">HubInterview.com</span> */}
                 </Link>
                 <div className="" >
-                    <ul className="font-medium flex  p-2 md:p-0 mt-4">
+                    <ul className="font-medium flex justify-end gap-6  p-2 md:p-0 mt-4">
                         <li>
                             <Link to="/" className="block py-2 px-3 text-white rounded-sm   md:border-0  md:p-0">Home</Link>
                         </li>

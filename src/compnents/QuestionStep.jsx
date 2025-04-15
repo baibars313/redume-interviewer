@@ -140,14 +140,14 @@ const QuestionStep = ({ data, onNext, onBack }) => {
       {completed ? (
        <div>
          <div className="flex justify-start">
-          <button className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600 transition" onClick={set}>
-
+          <button className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600 transition" onClick={onBack}>
+            Go Back
           </button>
          </div>
          <SessionSummary sessionId={sessionId} feedback={feedback} />
        </div>
       ) : (
-        <div className="flex justify-end">
+        <div className="flex justify-center items-center flex-col mt-4">
           {/* Cross Icon as End Session Button (visible after session creation) */}
 
 
@@ -158,7 +158,8 @@ const QuestionStep = ({ data, onNext, onBack }) => {
                   <FaSpinner className="animate-spin text-blue-500 mr-2" size={24} />
                 </div>
               ) : (
-                <div className="">
+               <div className="flex justif-center items-center">
+                 <div className="">
                   {sessionId && (
                     <div className="flex justify-end">
                       <button
@@ -174,7 +175,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
                   </p>
 
                   {/* Audio Recorder with built-in countdown */}
-                  <AudioRecorder audioBlob={audioBlob} setAudioBlob={setAudioBlob} />
+                  <AudioRecorder question={questions[currentQuestionIndex]} audioBlob={audioBlob} setAudioBlob={setAudioBlob} />
 
                   <div className="my-2">
                     <button
@@ -201,6 +202,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
 
                   {/* Go Back Button */}
                 </div>
+               </div>
               )}
             </>
           ) : (
