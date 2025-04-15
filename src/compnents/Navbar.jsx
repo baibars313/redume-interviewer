@@ -12,13 +12,13 @@ export default function Navbar() {
                 <div className=" w-full md:block md:w-auto" id="navbar-default">
                     <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-red-200 rounded-lg bg-white md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent">
                         <li>
-                            <Link to="/" className="block py-2 px-3 text-white rounded-sm hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-600 md:p-0">Home</Link>
+                            <Link to="/" className="block py-2 px-3 text-white rounded-sm   md:border-0  md:p-0">Home</Link>
                         </li>
                         <li>
-                            <Link to="/sessions" className="block py-2 px-3 text-white rounded-sm hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-600 md:p-0">Sessions</Link>
+                            <Link to="/sessions" className="block py-2 px-3 text-white rounded-sm   md:border-0   md:p-0">Sessions</Link>
                         </li>
                         <li>
-                            <Link to="/driving" className="block py-2 px-3 text-white rounded-sm hover:bg-red-100 md:hover:bg-transparent md:border-0 md:hover:text-red-600 md:p-0">Driving</Link>
+                            <Link to="/driving" className="block py-2 px-3 text-white rounded-sm   md:border-0   md:p-0">Driving</Link>
                         </li>
 
                     </ul>

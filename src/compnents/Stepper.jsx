@@ -1,7 +1,7 @@
 // The Stepper displays numbered circles with connecting lines.
 const Stepper = ({ currentStep, steps }) => {
   return (
-    <div className="flex justify-center items-center mb-4 my-6">
+    <div className="flex justify-center items-center mb-4 my-4">
       {steps.map((step, index) => (
         <div key={index} className="flex items-center">
           <div

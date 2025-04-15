@@ -37,12 +37,12 @@ const StepperCard = () => {
       <Stepper currentStep={currentStep} steps={steps} />
       <div className="   p-6 w-full   ">
         {/* A helpful title and description for the user */}
-        <h1 className="text-3xl font-bold text-center  mb-4">
+        {/* <h1 className="text-3xl font-bold text-center  mb-4">
           Resume & Interview Wizard
-        </h1>
-        <p className="text-center text-sm mb-6">
+        </h1> */}
+        {/* <p className="text-center text-sm mb-6">
           Providing your resume, job title, and (optionally) a description helps us generate more relevant interview questions.
-        </p>
+        </p> */}
         {currentStep === 1 && <div className="shadow-lg p-6 rounded border-[0.5px] border-gray-200"><ResumeStep data={collectedData} onNext={nextStep} /></div>}
         {currentStep === 2 && (
           <div className="shadow-lg p-6 rounded border-[0.5px] border-gray-200">

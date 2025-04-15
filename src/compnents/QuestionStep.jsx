@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { FaSpinner } from "react-icons/fa";
+import { FaSpinner, FaTimes } from "react-icons/fa";
 import { API_URL } from "./constant";
 import AudioRecorder from "./Recorder";
 import SessionSummary from "./Details";
@@ -15,13 +15,14 @@ const QuestionStep = ({ data, onNext, onBack }) => {
   const [loadingQuestions, setLoadingQuestions] = useState(false);
   const [addingQuestion, setAddingQuestion] = useState(false);
   const [completed, setCompleted] = useState(false);
-  const [timeElapsed, setTimeElapsed] = useState(0);
   const [showEndModal, setShowEndModal] = useState(false);
 
-  // Generate questions and create a session
+  // Generate questions and create a session.
+  // Clear previous audioBlob on new session.
   const generateQuestions = async () => {
     setLoadingQuestions(true);
     setError("");
+    setAudioBlob(null);
     try {
       const uuid = crypto.randomUUID();
       const formData = new FormData();
@@ -53,33 +54,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
     generateQuestions();
   }, []);
 
-  // Reset timer when question changes and start counting up to 3 minutes.
-  useEffect(() => {
-    // When the current question changes, reset the timer.
-    setTimeElapsed(0);
-    const timerInterval = setInterval(() => {
-      setTimeElapsed(prev => {
-        if (prev < 180) { // 3 minutes = 180 seconds
-          return prev + 1;
-        } else {
-          clearInterval(timerInterval);
-          return prev;
-        }
-      });
-    }, 1000);
-    return () => clearInterval(timerInterval);
-  }, [currentQuestionIndex]);
-
-  // Format seconds to mm:ss
-  const formatTime = (seconds) => {
-    const min = Math.floor(seconds / 60)
-      .toString()
-      .padStart(2, "0");
-    const sec = (seconds % 60).toString().padStart(2, "0");
-    return `${min}:${sec}`;
-  };
-
-  // Handle answer submission. On error, clear audioBlob to allow re-recording.
+  // Handle answer submission.
   const handleSubmitAnswer = async () => {
     if (!audioBlob) {
       setError("No recorded answer found. Please record your answer first.");
@@ -89,7 +64,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
     setError("");
     setFeedback("");
     try {
-      // Transcribe audio
+      // Transcribe audio.
       const formDataTranscription = new FormData();
       formDataTranscription.append("answer", audioBlob, `answer_${sessionId}_${currentQuestionIndex}.webm`);
       const transcriptionResponse = await axios.post(
@@ -98,7 +73,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
         { headers: { "Content-Type": "multipart/form-data" } }
       );
 
-      // Submit question answer with transcript
+      // Submit answer with transcript.
       const formDataSubmission = new FormData();
       formDataSubmission.append("question_id", questions[currentQuestionIndex].id);
       formDataSubmission.append("answer", audioBlob, `answer_${sessionId}_${currentQuestionIndex}.webm`);
@@ -107,73 +82,76 @@ const QuestionStep = ({ data, onNext, onBack }) => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // Clear the blob and stop the timer for the current question
+      // Clear recording state.
       setAudioBlob(null);
 
-      // If this is the last question, fetch feedback; otherwise proceed to next question.
+      // If this is the last question, fetch feedback; otherwise, move to the next question.
       if (currentQuestionIndex === questions.length - 1) {
         const qsResponse = await axios.get(
           `${API_URL}/api/questions/?limit=${questions.length}&session_id=${sessionId}`
         );
-        const allQuestions = qsResponse.data.results.map((item) => item.question);
-        const allTranscripts = qsResponse.data.results.map((item) => item.transcript);
+        const allQuestions = qsResponse.data.results.map(item => item.question);
+        const allTranscripts = qsResponse.data.results.map(item => item.transcript);
         await axios.post(`${API_URL}/ai_feedback/`, {
           session_id: sessionId,
           questions: allQuestions,
           answers: allTranscripts,
         });
 
-        // Optionally, you might need an additional API call to fetch final session details.
         const sessionSummaryResp = await axios.get(`${API_URL}/api/session/${sessionId}/`);
         setFeedback(sessionSummaryResp.data);
         setCompleted(true);
       } else {
-        setCurrentQuestionIndex((prev) => prev + 1);
+        setCurrentQuestionIndex(prev => prev + 1);
       }
     } catch (err) {
       console.error("Error processing answer:", err);
       setError("Failed to process answer. Please record your answer again and resubmit.");
-      // Clear the existing recorded answer to allow re-recording.
       setAudioBlob(null);
     } finally {
       setAddingQuestion(false);
     }
   };
 
-  // Function to refresh the entire session (if needed).
+  // Refresh the entire session.
   const handleRetryAll = () => {
     setError("");
     setQuestions([]);
     setSessionId("");
     setCurrentQuestionIndex(0);
+    setAudioBlob(null);
     generateQuestions();
   };
 
-  // Handle the end-session modal confirm action
+  // Handle manual session end.
   const handleConfirmEnd = () => {
-    // You may choose to call an API to mark session completed early.
-    // For this example, we simply mark it as complete to display the session summary.
     setCompleted(true);
     setShowEndModal(false);
+    setAudioBlob(null);
   };
 
   const controlsDisabled = completed;
-
+  useEffect(() => {
+  console.log(data)
+  }
+  , []);
   return (
     <>
       {completed ? (
         <SessionSummary sessionId={sessionId} feedback={feedback} />
       ) : (
         <div className="relative">
-          {/* End Session Button */}
-          <div className="absolute top-0 right-0 m-4">
-            <button
-              onClick={() => setShowEndModal(true)}
-              className="bg-gray-600 text-white py-1 px-3 rounded hover:bg-gray-700 transition"
-            >
-              End Session
-            </button>
-          </div>
+          {/* Cross Icon as End Session Button (visible after session creation) */}
+          {sessionId && (
+            <div className="absolute top-0 right-0 m-4">
+              <button
+                onClick={() => setShowEndModal(true)}
+                className="text-gray-600 hover:text-gray-800 transition"
+              >
+                <FaTimes size={24} />
+              </button>
+            </div>
+          )}
 
           {sessionId ? (
             <>
@@ -187,19 +165,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
                     Question {currentQuestionIndex + 1}: {questions[currentQuestionIndex].question}
                   </p>
 
-                  {/* Timer and progress bar */}
-                  <div className="flex items-center justify-center mb-4">
-                    <div className="w-64 bg-gray-300 h-4 rounded-lg overflow-hidden">
-                      <div
-                        className="bg-green-500 h-full"
-                        style={{ width: `${(timeElapsed / 180) * 100}%` }}
-                      ></div>
-                    </div>
-                    <span className="ml-2 text-sm font-mono">
-                      {formatTime(timeElapsed)} / 03:00
-                    </span>
-                  </div>
-
+                  {/* Audio Recorder with built-in countdown */}
                   <AudioRecorder audioBlob={audioBlob} setAudioBlob={setAudioBlob} />
 
                   <div className="my-2">
@@ -223,9 +189,18 @@ const QuestionStep = ({ data, onNext, onBack }) => {
                   {error && (
                     <div className="text-red-500 text-center">
                       <p>{error}</p>
-                      {/* The user may re-record their answer then press "Submit Answer" to resubmit */}
                     </div>
                   )}
+
+                  {/* Go Back Button */}
+                  <div className="mt-4 text-center">
+                    <button
+                      onClick={onBack}
+                      className="bg-gray-400 text-white py-2 px-4 rounded hover:bg-gray-500 transition"
+                    >
+                      Go Back
+                    </button>
+                  </div>
                 </div>
               )}
             </>
@@ -249,11 +224,10 @@ const QuestionStep = ({ data, onNext, onBack }) => {
 
           {/* End Session Modal */}
           {showEndModal && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="fixed inset-0 flex items-center justify-center backdrop-blur-lg z-999  ">
               <div className="bg-white p-6 rounded shadow-lg text-center">
                 <p className="mb-4 font-medium">
-                  Are you sure you want to end the session?{" "}
-                  <br />
+                  Are you sure you want to end the session? <br />
                   (Any unanswered questions will be lost.)
                 </p>
                 <div className="flex justify-around">

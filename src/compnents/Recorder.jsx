@@ -9,12 +9,18 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState('00:00');
+  // We'll track the current recorded time in milliseconds.
+  const [currentMs, setCurrentMs] = useState(0);
+  // Countdown (time remaining) formatted as mm:ss.
+  const [countdown, setCountdown] = useState("03:00");
 
   const micRef = useRef(null);
   const playbackRef = useRef(null);
   const playbackWavesurfer = useRef(null);
 
+  const TOTAL_TIME_MS = 180000; // 3 minutes in milliseconds
+
+  // Create a gradient for the waveform.
   const createGradient = () => {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -40,6 +46,7 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
       height: 80,
     });
 
+    // Register record plugin.
     const rec = ws.registerPlugin(
       RecordPlugin.create({
         renderRecordedAudio: false,
@@ -47,20 +54,27 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
       })
     );
 
+    // When recording ends, set the audio blob and reset states.
     rec.on('record-end', (blob) => {
       setAudioBlob(blob);
       setIsRecording(false);
       setIsPaused(false);
     });
 
+    // Update progress – here we use the elapsed time to compute countdown.
     rec.on('record-progress', (time) => {
-      const formattedTime = [
-        Math.floor((time % 3600000) / 60000),
-        Math.floor((time % 60000) / 1000),
-      ]
-        .map((v) => (v < 10 ? '0' + v : v))
-        .join(':');
-      setProgress(formattedTime);
+      // 'time' is in milliseconds.
+      setCurrentMs(time);
+      // Calculate remaining time.
+      const remainingMs = Math.max(TOTAL_TIME_MS - time, 0);
+      const minutes = Math.floor(remainingMs / 60000);
+      const seconds = Math.floor((remainingMs % 60000) / 1000);
+      const formatted = `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+      setCountdown(formatted);
+      // Optionally, you can auto-stop when the limit is reached.
+      if (remainingMs === 0 && isRecording) {
+        rec.stopRecording();
+      }
     });
 
     setWavesurfer(ws);
@@ -85,7 +99,6 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
         responsive: true,
         height: 80,
       });
-
       preview.loadBlob(audioBlob);
       preview.on('finish', () => setIsPlaying(false));
       playbackWavesurfer.current = preview;
@@ -97,9 +110,12 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
     if (isRecording || isPaused) {
       recordPlugin.stopRecording();
     } else {
+      // Reset previous recording data before starting a new recording.
+      setAudioBlob(null);
+      setCurrentMs(0);
+      setCountdown("03:00");
       recordPlugin.startRecording().then(() => {
         setIsRecording(true);
-        setAudioBlob(null);
       });
     }
   };
@@ -129,10 +145,13 @@ const AudioRecorder = ({ audioBlob, setAudioBlob }) => {
           <h1 className="text-2xl font-bold text-red-600 flex items-center gap-2">
             <FaMicrophone /> Audio Recorder
           </h1>
-          <p className="text-gray-500 text-sm">Progress: {progress}</p>
+          <p className="text-gray-500 text-sm">Time Left: {countdown}</p>
         </header>
 
-        <div className="flex items-center justify-center gap-4">
+        {/* Countdown Progress Bar */}
+        
+
+        <div className="flex items-center justify-center gap-4 mt-4">
           <button
             onClick={handleRecord}
             className="flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-full hover:scale-105 hover:bg-red-700 transition-all"
