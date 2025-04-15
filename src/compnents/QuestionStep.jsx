@@ -50,9 +50,9 @@ const QuestionStep = ({ data, onNext, onBack }) => {
     setLoadingQuestions(false);
   };
 
-  // useEffect(() => {
-  //   generateQuestions();
-  // }, []);
+  useEffect(() => {
+    generateQuestions();
+  }, []);
 
   // Handle answer submission.
   const handleSubmitAnswer = async () => {
