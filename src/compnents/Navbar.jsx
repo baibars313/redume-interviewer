@@ -17,9 +17,6 @@ export default function Navbar() {
                         <li>
                             <Link to="/sessions" className="block py-2 px-3 text-white rounded-sm   md:border-0   md:p-0">Sessions</Link>
                         </li>
-                        <li>
-                            <Link to="/driving" className="block py-2 px-3 text-white rounded-sm   md:border-0   md:p-0">Driving</Link>
-                        </li>
 
                     </ul>
                 </div>

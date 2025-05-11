@@ -4,6 +4,8 @@ import { FaSpinner, FaTimes } from "react-icons/fa";
 import { API_URL } from "./constant";
 import AudioRecorder from "./Recorder";
 import SessionSummary from "./Details";
+import { useAuthApi } from "../hooks/useAuthapi";
+import { useAuthStore } from "../store/useAuthstore";
 
 const QuestionStep = ({ data, onNext, onBack }) => {
   const [questions, setQuestions] = useState([]);
@@ -16,6 +18,8 @@ const QuestionStep = ({ data, onNext, onBack }) => {
   const [addingQuestion, setAddingQuestion] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [showEndModal, setShowEndModal] = useState(false);
+  const api=useAuthApi()
+  const userId = useAuthStore((state) => state.userId);
 
   // Generate questions and create a session.
   // Clear previous audioBlob on new session.
@@ -36,18 +40,27 @@ const QuestionStep = ({ data, onNext, onBack }) => {
       formData.append("num_questions", data?.questionCount);
       formData.append("company_name", data?.companyName);
       formData.append("session_id", uuid);
-      formData.append("user_id", 1);
+      formData.append("user_id", userId);
 
-      const response = await axios.post(`${API_URL}/generate_questions/`, formData, {
+      const response = await api.post(`/generate_questions/`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setSessionId(uuid);
-      setQuestions(response.data.questions);
+      console.log(response)
+     
+        setQuestions(response.data.questions);
+        
+     
+      
+      
+      
+      
     } catch (err) {
       console.error("Error generating questions:", err);
       setError("Failed to generate questions. Please try again.");
     }
     setLoadingQuestions(false);
+   
   };
 
   useEffect(() => {
@@ -67,8 +80,8 @@ const QuestionStep = ({ data, onNext, onBack }) => {
       // Transcribe audio.
       const formDataTranscription = new FormData();
       formDataTranscription.append("answer", audioBlob, `answer_${sessionId}_${currentQuestionIndex}.webm`);
-      const transcriptionResponse = await axios.post(
-        `${API_URL}/transcribe_audio/`,
+      const transcriptionResponse = await api.post(
+        `/transcribe_audio/`,
         formDataTranscription,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -78,7 +91,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
       formDataSubmission.append("question_id", questions[currentQuestionIndex].id);
       formDataSubmission.append("answer", audioBlob, `answer_${sessionId}_${currentQuestionIndex}.webm`);
       formDataSubmission.append("transcript", transcriptionResponse.data.audio_text);
-      await axios.post(`${API_URL}/api/questions/`, formDataSubmission, {
+      await api.post(`/api/questions/`, formDataSubmission, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -87,18 +100,18 @@ const QuestionStep = ({ data, onNext, onBack }) => {
 
       // If this is the last question, fetch feedback; otherwise, move to the next question.
       if (currentQuestionIndex === questions.length - 1) {
-        const qsResponse = await axios.get(
-          `${API_URL}/api/questions/?limit=${questions.length}&session_id=${sessionId}`
+        const qsResponse = await api.get(
+          `/api/questions/?limit=${questions.length}&session_id=${sessionId}`
         );
         const allQuestions = qsResponse.data.results.map(item => item.question);
         const allTranscripts = qsResponse.data.results.map(item => item.transcript);
-        await axios.post(`${API_URL}/ai_feedback/`, {
+        await api.post(`/ai_feedback/`, {
           session_id: sessionId,
           questions: allQuestions,
           answers: allTranscripts,
         });
 
-        const sessionSummaryResp = await axios.get(`${API_URL}/api/session/${sessionId}/`);
+        const sessionSummaryResp = await api.get(`/api/session/${sessionId}/`);
         setFeedback(sessionSummaryResp.data);
         setCompleted(true);
       } else {

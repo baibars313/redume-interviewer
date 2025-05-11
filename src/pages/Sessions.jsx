@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { API_URL } from "../compnents/constant";
-
 import { Link } from "react-router";
+import { useAuthApi } from "../hooks/useAuthapi";
+import { useAuthStore } from "../store/useAuthstore";
 
 const SessionTable = () => {
-  const initialUrl = `${API_URL}/api/sessions/?limit=10&offset=0`;
+  const userId = useAuthStore((state) => state.userId);
+  const api = useAuthApi();
+
+  const initialUrl = `/api/sessions/?limit=10&offset=0&user_id=${userId}`;
+
   const [sessionsData, setSessionsData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [nextPageUrl, setNextPageUrl] = useState(null);
@@ -14,82 +18,45 @@ const SessionTable = () => {
   const [loading, setLoading] = useState(false);
   const [errorSessions, setErrorSessions] = useState(null);
 
-
-
-  // Helper to enforce HTTPS and create absolute URLs.
-  const getAbsoluteUrl = (url) => {
-    if (!url) return null;
-    try {
-      let absoluteUrl = new URL(url, API_URL).href;
-      if (absoluteUrl.startsWith("http://")) {
-        absoluteUrl = absoluteUrl.replace("http://", "https://");
-      }
-      return absoluteUrl;
-    } catch (e) {
-      return url;
-    }
-  };
-
-  // Function to fetch session data from the API
-  const fetchData = (url) => {
+  // Fetch data based on current URL
+  const fetchData = async () => {
     setLoading(true);
     setErrorSessions(null);
-    axios
-      .get(url)
-      .then((response) => {
-        setSessionsData(response.data.results);
-        setNextPageUrl(
-          response.data.next ? getAbsoluteUrl(response.data.next) : null
-        );
-        setPrevPageUrl(
-          response.data.previous ? getAbsoluteUrl(response.data.previous) : null
-        );
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching sessions data: ", error);
-        setErrorSessions("Error fetching sessions data.");
-        setLoading(false);
-      });
+    try {
+      const response = await api.get(currentUrl);
+      setSessionsData(response.data.results);
+      setNextPageUrl(response.data.next);
+      setPrevPageUrl(response.data.previous);
+    } catch (error) {
+      console.error("Error fetching session data:", error);
+      setErrorSessions("Error fetching session data.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Fetch session data when currentUrl changes.
+  // Re-fetch when currentUrl changes
   useEffect(() => {
-    fetchData(currentUrl);
+    if (currentUrl) {
+      fetchData();
+    }
   }, [currentUrl]);
 
-  // Update API endpoint when search term changes.
-  useEffect(() => {
-    let url = `${API_URL}/api/sessions/?limit=10&offset=0`;
-    if (searchTerm.trim() !== "") {
-      url += `&search=${encodeURIComponent(searchTerm)}`;
-    }
-    setCurrentUrl(url);
-  }, [searchTerm]);
-
-  // Handlers for showing details.
- 
-
-  // Handlers for API-driven pagination.
+  // Pagination handlers
   const handleNextPage = () => {
-    if (nextPageUrl) {
-      setCurrentUrl(nextPageUrl);
-    }
+    if (nextPageUrl) setCurrentUrl(nextPageUrl.replace(API_URL, ""));
   };
 
   const handlePrevPage = () => {
-    if (prevPageUrl) {
-      setCurrentUrl(prevPageUrl);
-    }
+    if (prevPageUrl) setCurrentUrl(prevPageUrl.replace(API_URL, ""));
   };
 
   return (
     <div className="flex justify-center items-center">
       <div className="p-4 rounded-lg shadow-lg mt-6 lg:max-w-[80vw] sm:w-full md:w-3/4 lg:w-2/3 mx-4">
+        {/* Search Header */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4">
-          <h2 className="text-2xl font-bold text-red-500 mb-2 md:mb-0">
-            Sessions
-          </h2>
+          <h2 className="text-2xl font-bold text-red-500 mb-2 md:mb-0">Sessions</h2>
           <div className="relative">
             <input
               type="text"
@@ -103,7 +70,6 @@ const SessionTable = () => {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
             >
               <path
                 strokeLinecap="round"
@@ -114,37 +80,26 @@ const SessionTable = () => {
             </svg>
           </div>
         </div>
+
+        {/* Table Display */}
         {loading ? (
-          <div className="text-center text-red-500">
-            <p>Loading...</p>
-          </div>
+          <div className="text-center text-red-500"><p>Loading...</p></div>
         ) : errorSessions ? (
-          <div className="text-center text-red-500">
-            <p>{errorSessions}</p>
-          </div>
+          <div className="text-center text-red-500"><p>{errorSessions}</p></div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left text-black">
               <thead className="text-xs uppercase bg-red-600 text-white">
                 <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Job Title
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Session ID
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Actions
-                  </th>
+                  <th className="px-6 py-3">Job Title</th>
+                  <th className="px-6 py-3">Session ID</th>
+                  <th className="px-6 py-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {sessionsData && sessionsData.length > 0 ? (
+                {sessionsData.length > 0 ? (
                   sessionsData.map((session, index) => (
-                    <tr
-                      key={index}
-                      className="bg-white border-b hover:bg-red-50"
-                    >
+                    <tr key={index} className="bg-white border-b hover:bg-red-50">
                       <td className="px-6 py-4">{session.title}</td>
                       <td className="px-6 py-4">{session.session_id}</td>
                       <td className="px-6 py-4">
@@ -159,15 +114,15 @@ const SessionTable = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="3" className="px-6 py-4 text-center">
-                      No sessions found.
-                    </td>
+                    <td colSpan="3" className="px-6 py-4 text-center">No sessions found.</td>
                   </tr>
                 )}
               </tbody>
             </table>
           </div>
         )}
+
+        {/* Pagination Buttons */}
         <div className="flex justify-between items-center mt-4">
           <button
             onClick={handlePrevPage}

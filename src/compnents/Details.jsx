@@ -5,18 +5,19 @@ import {
     FaSpinner,
     FaHeadphones
 } from 'react-icons/fa';
-import axios from 'axios';
 import { API_URL } from './constant';
 import AudioPlayer from './AudioPlayer';
+import { useAuthApi } from '../hooks/useAuthapi';
 
 const SessionSummary = ({ sessionId }) => {
     const [data, setData] = useState(null);
     const [loadingSession, setLoadingSession] = useState(true);
     const [errorSession, setErrorSession] = useState(null);
+    const api =useAuthApi()
 
     const getDetails = async () => {
         try {
-            const res = await axios.get(`${API_URL}/api/session/${sessionId}/`);
+            const res = await api.get(`/api/session/${sessionId}/`);
             setData(res.data);
             setLoadingSession(false);
             console.log(res.data);

@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaSpinner } from "react-icons/fa";
-import { API_URL } from "./constant";
 import AudioRecorder from "./Recorder";
 import SessionSummary from "./Details";
+import { useAuthApi } from "../hooks/useAuthapi";
 
 const DrivingQuestionStep = ({ data, onNext, onBack }) => {
   const [questions, setQuestions] = useState([]);
@@ -17,6 +17,7 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
   const [completed, setCompleted] = useState(false);
   const [generatingNewQuestion, setGeneratingNewQuestion] = useState(false);
   const [generatingFeedback, setGeneratingFeedback] = useState(false);
+  const api=useAuthApi();
 
   // Initial generation of questions and creation of session
   const generateQuestions = async () => {
@@ -37,7 +38,7 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
       formData.append("session_id", uuid);
       formData.append("user_id", 1);
 
-      const response = await axios.post(`${API_URL}/generate_questions/`, formData, {
+      const response = await api.post(`/generate_questions/`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setSessionId(uuid);
@@ -58,7 +59,7 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
   const generateNextQuestion = async (conversationQuestions, conversationTranscripts) => {
     setGeneratingNewQuestion(true);
     try {
-      const response = await axios.post(`${API_URL}/update_question/`, {
+      const response = await api.post(`/update_question/`, {
         session_id: sessionId,
         questions: conversationQuestions,
         answers: conversationTranscripts,
@@ -86,8 +87,8 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
       // Transcribe audio
       const formDataTranscription = new FormData();
       formDataTranscription.append("answer", audioBlob, `answer_${sessionId}_${currentQuestionIndex}.webm`);
-      const transcriptionResponse = await axios.post(
-        `${API_URL}/transcribe_audio/`,
+      const transcriptionResponse = await api.post(
+        `/transcribe_audio/`,
         formDataTranscription,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -97,7 +98,7 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
       formDataSubmission.append("question_id", questions[currentQuestionIndex].id);
       formDataSubmission.append("answer", audioBlob, `answer_${sessionId}_${currentQuestionIndex}.webm`);
       formDataSubmission.append("transcript", transcriptionResponse.data.audio_text);
-      await axios.post(`${API_URL}/api/questions/`, formDataSubmission, {
+      await api.post(`/api/questions/`, formDataSubmission, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
@@ -109,26 +110,26 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
       if (questions.length >= Number(data.numQuestions) && currentQuestionIndex === questions.length - 1) {
         // Generate feedback since the interview is complete.
         setGeneratingFeedback(true);
-        const qsResponse = await axios.get(
-          `${API_URL}/api/questions/?limit=${questions.length}&session_id=${sessionId}`
+        const qsResponse = await api.get(
+          `/api/questions/?limit=${questions.length}&session_id=${sessionId}`
         );
         const allQuestions = qsResponse.data.results.map((item) => item.question);
         const allTranscripts = qsResponse.data.results.map((item) => item.transcript);
-        const aiFeedbackResponse = await axios.post(`${API_URL}/ai_feedback/`, {
+        const aiFeedbackResponse = await api.post(`/ai_feedback/`, {
           session_id: sessionId,
           questions: allQuestions,
           answers: allTranscripts,
         });
         // Assume the session summary or feedback comes from the session API
-        const session_summary = await axios.get(`${API_URL}/api/session/${sessionId}/`);
+        const session_summary = await api.get(`/api/session/${sessionId}/`);
         setFeedback(session_summary.data);
         setCompleted(true);
         setGeneratingFeedback(false);
       } else {
         // Prepare conversation context for generating the next question
         // Gather all previous questions and transcripts
-        const qsResponse = await axios.get(
-          `${API_URL}/api/questions/?limit=${currentQuestionIndex + 1}&session_id=${sessionId}`
+        const qsResponse = await api.get(
+          `/api/questions/?limit=${currentQuestionIndex + 1}&session_id=${sessionId}`
         );
         const conversationQuestions = qsResponse.data.results.map((item) => item.question);
         const conversationTranscripts = qsResponse.data.results.map((item) => item.transcript);

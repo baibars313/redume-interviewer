@@ -2,12 +2,16 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { API_URL } from "./constant";
+import { useAuthApi } from "../hooks/useAuthapi";
+import { useAuthStore } from "../store/useAuthstore";
 
 // Step 1: Resume selection or upload.
 const ResumeStep = ({ data, onNext }) => {
   const [selectedResume, setSelectedResume] = useState("");
   const [file, setFile] = useState(null);
   const [error, setError] = useState("");
+  const api = useAuthApi();
+  const userId  = useAuthStore((state) => state.userId);
 
   // Dummy list of resumes for the select dropdown.
   const [resumes, setResumes] = useState([]);
@@ -22,8 +26,14 @@ const ResumeStep = ({ data, onNext }) => {
   };
 
   const getResumes = async () => {
-    const res = await axios.get(`${API_URL}/api/sessions/?limit=5`);
-    setResumes(res.data.results);
+    try {
+      const response = await api.get(`/api/sessions/?limit=5&user_id=${userId}`);
+      console.log(response);
+      setResumes(response.data.results);
+    } catch (err) {
+      console.error("Error fetching resumes:", err);
+      
+    }
   };
 
   useEffect(() => {
