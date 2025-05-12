@@ -25,7 +25,7 @@ function LoginPage() {
       setError(null);
     
       try {
-        const response = await axios.post(`${WP_URL}/mysite/wp-json/custom/v1/login/`, {
+        const response = await axios.post(`${WP_URL}/wp-json/custom/v1/login/`, {
           username,
           password,
         });
