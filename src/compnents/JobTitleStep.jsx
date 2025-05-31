@@ -1,12 +1,34 @@
+
 import React, { useState } from "react";
 import CustomSelect from "./CustomSelect";
 import JobDescriptionStep from "./JobDescriptionStep";
-// Step 2: Job title input.
+import { useLanguageStore } from "../store/useLanguageStore"; 
+
+const translations = {
+  en: {
+    jobTitlePlaceholder: "Select or Write Job Title",
+    companyPlaceholder: "Select or Write Job Company",
+    selectQuestionCount: "Select a number",
+    questionLabel: "questions",
+  },
+  fr: {
+    jobTitlePlaceholder: "Sélectionnez ou écrivez l'intitulé du poste",
+    companyPlaceholder: "Sélectionnez ou écrivez le nom de l'entreprise",
+    selectQuestionCount: "Sélectionnez un nombre",
+    questionLabel: "questions",
+  },
+};
+
+
+
+
+// Step 2: Job title input
 const JobTitleStep = ({ data, onNext, onBack, setData, submit }) => {
   const [jobTitle, setJobTitle] = useState(data.jobTitle || "");
   const [error, setError] = useState("");
 
-
+  const language = useLanguageStore((state) => state.language);
+  const t = translations[language];
 
   return (
     <div className="text-blue-900">
@@ -18,40 +40,40 @@ const JobTitleStep = ({ data, onNext, onBack, setData, submit }) => {
               setData({ jobTitle: value });
             }}
             options={["Software Devloper", "CFO", "Sales Manager"]}
-            placeholder="Select or Write Job Title"
+            placeholder={t.jobTitlePlaceholder}
           />
         </div>
+
         <div>
           <CustomSelect
             onSelect={(value) => {
-              //add company name to data
               setData({ companyName: value });
-
             }}
             options={["Amazon", "Google", "Microsoft"]}
-            placeholder="Select or Write Job Company"
+            placeholder={t.companyPlaceholder}
           />
         </div>
+
         <div>
-
-        <select
-        className="border border-red-500 text-red-500 rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-3.5"
-        value={data?.questionCount || ""}
-        onChange={(e) => {
-          setData({ ...data, questionCount: parseInt(e.target.value) });
-        }}
-      >
-        <option value="" disabled>Select a number</option>
-        {Array.from({ length: 6 }, (_, i) => i + 5).map((num) => (
-          <option key={num} value={num}>
-            {num} questions
-          </option>
-        ))}
-      </select>
+          <select
+            className="border border-red-500 text-red-500 rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-3.5"
+            value={data?.questionCount || ""}
+            onChange={(e) => {
+              setData({ ...data, questionCount: parseInt(e.target.value) });
+            }}
+          >
+            <option value="" disabled>
+              {t.selectQuestionCount}
+            </option>
+            {Array.from({ length: 6 }, (_, i) => i + 5).map((num) => (
+              <option key={num} value={num}>
+                {num} {t.questionLabel}
+              </option>
+            ))}
+          </select>
         </div>
-
-
       </div>
+
       <JobDescriptionStep
         data={data}
         onNext={onNext}
@@ -62,4 +84,5 @@ const JobTitleStep = ({ data, onNext, onBack, setData, submit }) => {
     </div>
   );
 };
+
 export default JobTitleStep;
