@@ -33,9 +33,9 @@ export default function Navbar() {
               
             </li>
             <li>
-              <Link to="/sessions" className="block py-2 px-3 text-white rounded-sm md:border-0 md:p-0">
+              <div className="block py-2 px-3 text-white rounded-sm md:border-0 md:p-0">
               <LanguageSelector />
-              </Link>
+              </div>
             </li>
           </ul>
         </div>
