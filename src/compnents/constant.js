@@ -1,5 +1,5 @@
 export  const API_URL="https://app.hubinterview.org";
-export const WP_URL="https://60d5cf443f.nxcli.io"
+export const WP_URL="https://www.hubinterview.com/"
 
 // src/constants/translations.js
 export const NavbarTranslations = {
@@ -19,7 +19,7 @@ export const LoginTranslations = {
     en: {
       home: 'Home',
       sessions: 'Sessions',
-      welcome: 'Welcome to Hub Interview Practice Area',
+      welcome: 'Welcome to HubInterview Practice Area',
       username: 'Username',
       password: 'Password',
       signIn: 'Sign In',
@@ -30,7 +30,7 @@ export const LoginTranslations = {
     fr: {
       home: 'Accueil',
       sessions: 'Sessions',
-      welcome: 'Bienvenue sur la plateforme Hub Interview',
+      welcome: 'Bienvenue sur la plateforme HubInterview',
       username: "Nom d'utilisateur",
       password: 'Mot de passe',
       signIn: 'Se connecter',
