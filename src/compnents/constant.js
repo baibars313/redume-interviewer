@@ -1,5 +1,5 @@
 export  const API_URL="https://app.hubinterview.org";
-export const WP_URL="https://www.hubinterview.com/"
+export const WP_URL="https://www.hubinterview.com"
 
 // src/constants/translations.js
 export const NavbarTranslations = {
