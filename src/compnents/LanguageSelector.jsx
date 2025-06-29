@@ -12,7 +12,7 @@ const LanguageSelector = () => {
         id="language"
         value={language}
         onChange={(e) => setLanguage(e.target.value)}
-        className="p-2 border border-white rounded-md shadow-sm text-sm text-white"
+        className="p-2 border border-white rounded-md shadow-sm text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-red-500"
       >
         <option value="en">🇬🇧 English</option>
         <option value="fr">🇫🇷 Français</option>
