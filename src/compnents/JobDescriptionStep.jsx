@@ -35,18 +35,18 @@ const JobDescriptionStep = ({ data, onNext, onBack, title }) => {
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
           placeholder={t.jobDescriptionPlaceholder}
-          className="border border-gray-300 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border border-gray-300 p-2 w-full rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
           rows={8}
         ></textarea>
       </div>
 
       <div className="flex justify-end text-sm mb-4">
-        <span className={`${wordCount < 100 ? "text-blue-500" : "text-gray-500"}`}>
+        <span className={`${wordCount < 100 ? "text-red-500" : "text-gray-500"}`}>
           {wordCount} / 100 {t.wordCountLabel}
         </span>
       </div>
 
-      {error && <p className="text-blue-500 mb-4">{error}</p>}
+      {error && <p className="text-red-500 mb-4">{error}</p>}
 
       <div className="flex justify-between">
         <button
@@ -57,7 +57,7 @@ const JobDescriptionStep = ({ data, onNext, onBack, title }) => {
         </button>
         <button
           onClick={handleNext}
-          className="bg-primary text-white py-2 px-4 rounded hover:bg-blue-600"
+          className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600"
         >
           {t.nextButton}
         </button>

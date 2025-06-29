@@ -49,7 +49,7 @@ const ResumeStep = ({ data, onNext }) => {
             setSelectedResume(e.target.value);
             if (file) setFile(null);
           }}
-          className="border border-blue-500 p-3 rounded-lg w-full appearance-none"
+          className="border border-red-500 p-3 rounded-lg w-full appearance-none"
         >
           <option value="">{t.selectResume}</option>
           {resumes.map((res, idx) => (
@@ -87,7 +87,7 @@ const ResumeStep = ({ data, onNext }) => {
       {file && (
         <p className="text-gray-600 mt-2 text-center my-4">{file.name}</p>
       )}
-      {error && <p className="text-blue-500 mb-4">{error}</p>}
+      {error && <p className="text-red-500 mb-4">{error}</p>}
       <button
         onClick={handleNext}
         className="bg-primary text-white py-2 px-4 rounded w-full"

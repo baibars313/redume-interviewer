@@ -167,7 +167,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
       {completed ? (
         <div>
           <div className="flex justify-start">
-            <button className="bg-primary text-white py-2 px-4 rounded hover:bg-blue-600 transition" onClick={onBack}>
+            <button className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600 transition" onClick={onBack}>
               {t.goBack}
             </button>
           </div>
@@ -185,7 +185,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
                 <div className="">
                   <div className="flex justify-end">
                     <button onClick={() => setShowEndModal(true)} className="text-gray-600 hover:text-gray-800 transition">
-                      <FaTimes className="text-blue-500 border border-blue-500 rounded-full" size={20} />
+                      <FaTimes className="text-red-500 border border-red-500 rounded-full" size={20} />
                     </button>
                   </div>
                   <p className="mb-2 font-medium text-center">
@@ -196,12 +196,12 @@ const QuestionStep = ({ data, onNext, onBack }) => {
                     <button
                       onClick={handleSubmitAnswer}
                       disabled={!audioBlob || controlsDisabled}
-                      className={`bg-primary text-white py-2 px-4 rounded transition flex justify-center items-center w-full text-center ${!audioBlob || controlsDisabled ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"}`}
+                      className={`bg-primary text-white py-2 px-4 rounded transition flex justify-center items-center w-full text-center ${!audioBlob || controlsDisabled ? "opacity-50 cursor-not-allowed" : "hover:bg-red-600"}`}
                     >
                       {addingQuestion ? <FaSpinner className="animate-spin text-white mr-2" size={24} /> : t.submitAnswer}
                     </button>
                   </div>
-                  {error && <div className="text-blue-500 text-center"><p>{error}</p></div>}
+                  {error && <div className="text-red-500 text-center"><p>{error}</p></div>}
                 </div>
               )}
             </>
@@ -213,7 +213,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
                   <p className="text-blue-900 mb-4">{t.creatingSession}</p>
                 </div>
               ) : (
-                <button onClick={generateQuestions} className="bg-primary text-white py-2 px-4 rounded hover:bg-blue-600 transition">
+                <button onClick={generateQuestions} className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600 transition">
                   {t.retry}
                 </button>
               )}
@@ -225,7 +225,7 @@ const QuestionStep = ({ data, onNext, onBack }) => {
               <div className="bg-white p-6 rounded shadow-lg text-center">
                 <p className="mb-4 font-medium">{t.confirmEnd}</p>
                 <div className="flex justify-around">
-                  <button onClick={handleConfirmEnd} className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition">
+                  <button onClick={handleConfirmEnd} className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition">
                     {t.endSession}
                   </button>
                   <button onClick={() => setShowEndModal(false)} className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition">

@@ -148,7 +148,7 @@ const AudioRecorder = ({ audioBlob, setAudioBlob, question }) => {
       {/* Recorder */}
       <div className="bg-white shadow-2xl rounded-2xl p-6 space-y-4">
         <header className="flex items-center justify-between">
-          <h1 className="text-sm font-bold text-blue-600 flex items-center gap-2">
+          <h1 className="text-sm font-bold text-red-600 flex items-center gap-2">
             <FaMicrophone /> Audio Recorder
           </h1>
           <p className="text-gray-500 text-sm">Time Left: {countdown}</p>
@@ -160,7 +160,7 @@ const AudioRecorder = ({ audioBlob, setAudioBlob, question }) => {
         <div className="flex items-center justify-center gap-4 mt-4">
           <button
             onClick={handleRecord}
-            className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full hover:scale-105 hover:bg-blue-700 transition-all"
+            className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full hover:scale-105 hover:bg-red-700 transition-all"
           >
             {isRecording || isPaused ? (
               <>
@@ -175,7 +175,7 @@ const AudioRecorder = ({ audioBlob, setAudioBlob, question }) => {
           {isRecording && (
             <button
               onClick={handlePause}
-              className="flex items-center gap-2 bg-white text-blue-600 border border-blue-600 px-4 py-2 rounded-full hover:scale-105 hover:bg-blue-50 transition-all"
+              className="flex items-center gap-2 bg-white text-red-600 border border-red-600 px-4 py-2 rounded-full hover:scale-105 hover:bg-red-50 transition-all"
             >
               {isPaused ? (
                 <>
@@ -192,22 +192,22 @@ const AudioRecorder = ({ audioBlob, setAudioBlob, question }) => {
 
         <div
           ref={micRef}
-          className="border border-dashed border-blue-400 rounded-xl bg-blue-50 p-2 mt-4"
+          className="border border-dashed border-red-400 rounded-xl bg-red-50 p-2 mt-4"
         ></div>
       </div>
 
       {/* Playback */}
       {audioBlob && (
         <div className="bg-white shadow-2xl rounded-2xl p-6 space-y-4">
-          <h2 className="text-xl font-semibold text-blue-600">Playback</h2>
+          <h2 className="text-xl font-semibold text-red-600">Playback</h2>
           <div
             ref={playbackRef}
-            className="border border-dashed border-blue-400 rounded-xl bg-white p-2"
+            className="border border-dashed border-red-400 rounded-xl bg-white p-2"
           ></div>
           <div className="flex justify-center">
             <button
               onClick={togglePlayback}
-              className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full hover:scale-105 hover:bg-blue-700 transition-all"
+              className="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full hover:scale-105 hover:bg-red-700 transition-all"
             >
               {isPlaying ? (
                 <>

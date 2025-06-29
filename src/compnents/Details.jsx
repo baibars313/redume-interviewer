@@ -34,7 +34,7 @@ const SessionSummary = ({ sessionId }) => {
     if (loadingSession) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-100">
-                <FaSpinner className="animate-spin text-blue-500 text-5xl" />
+                <FaSpinner className="animate-spin text-red-500 text-5xl" />
             </div>
         );
     }
@@ -42,7 +42,7 @@ const SessionSummary = ({ sessionId }) => {
     if (errorSession) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-100">
-                <p className="text-blue-500 text-xl font-bold">{errorSession}</p>
+                <p className="text-red-500 text-xl font-bold">{errorSession}</p>
             </div>
         );
     }
@@ -51,7 +51,7 @@ const SessionSummary = ({ sessionId }) => {
         <div className="min-h-screen p-2">
             <div className="mx-auto bg-white rounded-lg overflow-hidden">
                 {/* Header */}
-                <div className="bg-blue-600 p-6 flex flex-col sm:flex-row justify-between items-center">
+                <div className="bg-red-600 p-6 flex flex-col sm:flex-row justify-between items-center">
                     <div>
                         <h1 className="text-3xl font-bold text-white">Session Summary</h1>
                         <p className="text-white mt-1">Session ID: {data.session_id}</p>
@@ -66,15 +66,15 @@ const SessionSummary = ({ sessionId }) => {
                     {/* Session Details Card */}
                     <div className="mb-6">
                         <div className="flex justify-between p-3">
-                            <h2 className="text-2xl font-semibold text-blue-500">Session Details</h2>
+                            <h2 className="text-2xl font-semibold text-red-500">Session Details</h2>
                             <a
                                 href={data.resume_url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-blue-500 mt-2 p-2 rounded-lg hover:bg-primary hover:text-white transition duration-300 shadow-sm"
+                                className="text-red-500 mt-2 p-2 rounded-lg hover:bg-primary hover:text-white transition duration-300 shadow-sm"
                             >
                                 <p className="flex items-center gap-2">
-                                    <FaFilePdf className="text-blue-500" />
+                                    <FaFilePdf className="text-red-500" />
                                     <span className="font-medium">View Resume</span>
                                 </p>
                             </a>
@@ -96,7 +96,7 @@ const SessionSummary = ({ sessionId }) => {
 
                     {/* Questions & Answers */}
                     <div>
-                        <h2 className="text-2xl font-semibold text-blue-500 mb-4">Questions & Answers</h2>
+                        <h2 className="text-2xl font-semibold text-red-500 mb-4">Questions & Answers</h2>
                         <div className="space-y-6">
                             {data.questions.map((q) => (
                                 <div key={q.id} className="p-4 rounded-lg shadow-sm hover:shadow-md transition duration-300">
@@ -107,7 +107,7 @@ const SessionSummary = ({ sessionId }) => {
                                         {q.answer ? (
                                             <AudioPlayer audioUrl={q.answer} />
                                         ) : (
-                                            <p className="text-blue-500">No answer provided yet.</p>
+                                            <p className="text-red-500">No answer provided yet.</p>
                                         )}
                                     </div>
                                     {/* {q.transcript && (
@@ -125,7 +125,7 @@ const SessionSummary = ({ sessionId }) => {
 
                     {/* Overall Feedback */}
                     <div className="mt-6">
-                        <h2 className="text-2xl font-semibold text-blue-500 mb-4">Overall Feedback</h2>
+                        <h2 className="text-2xl font-semibold text-red-500 mb-4">Overall Feedback</h2>
                         <div className="p-4 rounded-lg shadow-sm hover:shadow-md transition duration-300">
                             <ReactMarkdown>{data.feedback}</ReactMarkdown>
                         </div>

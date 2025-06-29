@@ -6,8 +6,8 @@ const Stepper = ({ currentStep, steps }) => {
         <div key={index} className="flex items-center">
           <div
             className={`w-8 h-8 rounded-full flex justify-center items-center border-2 ${
-              currentStep > index ? "bg-primary-circle text-white" : "bg-white text-blue-500"
-            } border-blue-500`}
+              currentStep > index ? "bg-primary-circle text-white" : "bg-white text-red-500"
+            } border-red-500`}
           >
             {index + 1}
           </div>

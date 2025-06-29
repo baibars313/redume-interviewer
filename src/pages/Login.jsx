@@ -49,14 +49,14 @@ function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
-      <div className="w-full max-w-md p-8 space-y-6 border border-blue-500 rounded-lg shadow-sm">
-        <h2 className="text-center text-3xl font-extrabold text-blue-600">
+      <div className="w-full max-w-md p-8 space-y-6 border border-red-500 rounded-lg shadow-sm">
+        <h2 className="text-center text-3xl font-extrabold text-red-600">
           {t.welcome}
         </h2>
         {isLoggedIn ? (
           <div className="text-center space-y-4">
-            <p className="text-blue-700">{t.loggedIn} (User ID: {userId})</p>
-            <button onClick={handleLogout} className="w-full py-2 px-4 rounded-md bg-blue-600 text-white">
+            <p className="text-red-700">{t.loggedIn} (User ID: {userId})</p>
+            <button onClick={handleLogout} className="w-full py-2 px-4 rounded-md bg-red-600 text-white">
               {t.logout}
             </button>
           </div>
@@ -68,7 +68,7 @@ function LoginPage() {
                 name="username"
                 type="text"
                 required
-                className="block w-full px-3 py-2 border border-blue-300 rounded-t-md"
+                className="block w-full px-3 py-2 border border-red-300 rounded-t-md"
                 placeholder={t.username}
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -78,17 +78,17 @@ function LoginPage() {
                 name="password"
                 type="password"
                 required
-                className="block w-full px-3 py-2 border border-blue-300 rounded-b-md"
+                className="block w-full px-3 py-2 border border-red-300 rounded-b-md"
                 placeholder={t.password}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {error && <p className="text-blue-500 text-sm">{error}</p>}
+            {error && <p className="text-red-500 text-sm">{error}</p>}
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2 px-4 rounded-md bg-blue-600 text-white"
+              className="w-full py-2 px-4 rounded-md bg-red-600 text-white"
             >
               {loading ? t.loggingIn : t.signIn}
             </button>

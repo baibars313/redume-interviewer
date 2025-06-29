@@ -178,7 +178,7 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
                       onClick={handleSubmitAnswer}
                       disabled={!audioBlob || controlsDisabled || addingQuestion || generatingNewQuestion || generatingFeedback}
                       className={`bg-primary text-white py-2 px-4 rounded transition flex justify-center items-center w-full text-center ${
-                        !audioBlob || controlsDisabled ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
+                        !audioBlob || controlsDisabled ? "opacity-50 cursor-not-allowed" : "hover:bg-red-600"
                       }`}
                     >
                       {addingQuestion && (
@@ -194,7 +194,7 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
                     </button>
                   </div>
                   {error && (
-                    <div className="text-blue-500 text-center">
+                    <div className="text-red-500 text-center">
                       <p>{error}</p>
                       <button onClick={handleRetryAll} className="underline">
                         Retry
@@ -214,7 +214,7 @@ const DrivingQuestionStep = ({ data, onNext, onBack }) => {
               ) : (
                 <button
                   onClick={generateQuestions}
-                  className="bg-primary text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+                  className="bg-primary text-white py-2 px-4 rounded hover:bg-red-600 transition"
                 >
                   Retry
                 </button>

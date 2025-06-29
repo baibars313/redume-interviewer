@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import CustomSelect from "./CustomSelect";
 import JobDescriptionStep from "./JobDescriptionStep";
@@ -55,7 +56,7 @@ const JobTitleStep = ({ data, onNext, onBack, setData, submit }) => {
 
         <div>
           <select
-            className="border border-blue-500 text-blue-500 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3.5"
+            className="border border-red-500 text-red-500 rounded-lg focus:ring-red-500 focus:border-red-500 block w-full p-3.5"
             value={data?.questionCount || ""}
             onChange={(e) => {
               setData({ ...data, questionCount: parseInt(e.target.value) });
