@@ -10,7 +10,7 @@ export default function Navbar() {
   const t = NavbarTranslations[language]; // translation shortcut
 
   return (
-    <nav className="bg-[#0f1a37] border-red-400 border-b-2 shadow-lg">
+    <nav className="bg-[#0f1a37] border-blue-400 border-b-2 shadow-lg">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <div className='flex justify-start'>
           <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">

@@ -23,8 +23,8 @@ export default function PrevousDescription({setJobDescription}) {
     return (
         <div className="grid lg:grid-cols-4 grid-cols-2 gap-1 ">
             {jobs.map((job, index) => (
-                <div key={index} className="border border-red-500 p-2 rounded-full" onClick={() => setJobDescription(job.description)}>
-                    <h2 className="text-sm font-bold text-center text-red-500">{job?.title?.slice(0,12) || job.description.slice(0,12)}...</h2>
+                <div key={index} className="border border-blue-500 p-2 rounded-full" onClick={() => setJobDescription(job.description)}>
+                    <h2 className="text-sm font-bold text-center text-blue-500">{job?.title?.slice(0,12) || job.description.slice(0,12)}...</h2>
                 </div>
             ))}
         </div>

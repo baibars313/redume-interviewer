@@ -61,7 +61,7 @@ const CustomSelect = ({
       <div >
         <button
           onClick={toggleOptions}
-          className="w-full bg-white text-red-600 border border-red-600 rounded-md p-3 flex justify-between items-center shadow-sm hover:bg-red-50 transition-colors duration-300"
+          className="w-full bg-white text-blue-600 border border-blue-600 rounded-md p-3 flex justify-between items-center shadow-sm hover:bg-blue-50 transition-colors duration-300"
         >
           <span>{selectedOption || placeholder}</span>
           <svg
@@ -78,19 +78,19 @@ const CustomSelect = ({
 
         {/* Dropdown list with smooth animation */}
         {isOpen && (
-          <div className="absolute z-10 mt-1 w-full max-w-sm bg-white border border-red-600 rounded-md shadow-lg animate-fadeIn">
+          <div className="absolute z-10 mt-1 w-full max-w-sm bg-white border border-blue-600 rounded-md shadow-lg animate-fadeIn">
             
             {options.map((option, index) => (
               <div
                 key={index}
                 onClick={() => handleOptionClick(option)}
-                className="cursor-pointer text-red-600 p-2 hover:bg-red-50 transition-colors duration-200"
+                className="cursor-pointer text-blue-600 p-2 hover:bg-blue-50 transition-colors duration-200"
               >
                 {option}
               </div>
             ))}
 
-            <div className="border-t border-red-600"></div>
+            <div className="border-t border-blue-600"></div>
 
             {/* Custom input area */}
             <form onSubmit={handleCustomSubmit} className="p-2">
@@ -99,11 +99,11 @@ const CustomSelect = ({
                 value={customInput}
                 onChange={(e) => setCustomInput(e.target.value)}
                 placeholder="Enter custom value"
-                className="w-full p-2 rounded-md border border-red-600 focus:outline-none focus:ring-2 focus:ring-red-600 transition-all duration-300"
+                className="w-full p-2 rounded-md border border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all duration-300"
               />
               <button
                 type="submit"
-                className="mt-2 w-full bg-primary text-white p-2 rounded-md hover:bg-red-700 transition-colors duration-300"
+                className="mt-2 w-full bg-primary text-white p-2 rounded-md hover:bg-blue-700 transition-colors duration-300"
               >
                 Enter
               </button>

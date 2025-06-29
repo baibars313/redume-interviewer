@@ -22,7 +22,7 @@ export default function FeedBack({ isOpen, setIsOpen, feedback, questions }) {
 
             <div className="mt-6 flex justify-end">
               <button
-                className="px-4 py-2 bg-red-600 w-full text-center text-white rounded-lg hover:bg-red-700 transition"
+                className="px-4 py-2 bg-blue-600 w-full text-center text-white rounded-lg hover:bg-blue-700 transition"
                 onClick={() => setIsOpen(false)}
               >
                 Close

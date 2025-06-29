@@ -14,7 +14,7 @@ export default function SessionDetails () {
          <div className='mb-6 mx-4'>
          <Link
             to={"/sessions"}
-            className="text-red-500 py-2 my-4 px-4 border-red-500 border rounded-lg mb-4 p-2 shadow-md  hover:bg-red-600 hover:text-white font-semibold"
+            className="text-blue-500 py-2 my-4 px-4 border-blue-500 border rounded-lg mb-4 p-2 shadow-md  hover:bg-blue-600 hover:text-white font-semibold"
           >
             {"<"} Go Back
           </Link>

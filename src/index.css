@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 .bg-primary {
-  background: #fc1566;
-  background: linear-gradient(135deg, #fc1566, #ef161c);
+  background: #2563eb;
+  background: linear-gradient(135deg, #2563eb, #0f1a37);
 }
 
 .bg-primary-circle {
-  background: #fc1566;
-  background: radial-gradient(at left top, #fc1566, #ef161c);
+  background: #2563eb;
+  background: radial-gradient(at left top, #2563eb, #0f1a37);
 }
