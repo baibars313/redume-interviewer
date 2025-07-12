@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Custom User API with WooCommerce Plan & CORS
- * Description: Exposes custom REST API endpoints for user login and profile, with CORS support for app.hubinterview.com and app.hubinterview.org.
- * Version:     1.4
+ * Description: Exposes custom REST API endpoints for user login and profile, with CORS support for app.hubinterview.com and app.hubinterview.org.  Requires an active WooCommerce membership to log in.
+ * Version:     1.5
  * Author:      Shahbaz
  */
 
@@ -81,12 +81,13 @@ add_action( 'rest_api_init', function () {
 } );
 
 /**
- * User login endpoint - returns token
+ * User login endpoint - returns token only if user has an active membership
  */
 function custom_api_login( WP_REST_Request $request ) {
     $username = $request->get_param( 'username' );
     $password = $request->get_param( 'password' );
 
+    // 1. Authenticate credentials
     $user = wp_signon( [
         'user_login'    => $username,
         'user_password' => $password,
@@ -97,7 +98,35 @@ function custom_api_login( WP_REST_Request $request ) {
         return new WP_Error( 'invalid_credentials', 'Invalid username or password', [ 'status' => 403 ] );
     }
 
-    // Generate and store token
+    // 2. Require active WooCommerce membership
+    if ( function_exists( 'wc_memberships_get_user_memberships' ) ) {
+        $memberships = wc_memberships_get_user_memberships( $user->ID );
+        $has_active = false;
+
+        foreach ( $memberships as $membership ) {
+            if ( 'active' === $membership->get_status() ) {
+                $has_active = true;
+                break;
+            }
+        }
+
+        if ( ! $has_active ) {
+            return new WP_Error(
+                'no_active_membership',
+                'You must have an active subscription to log in.',
+                [ 'status' => 403 ]
+            );
+        }
+    } else {
+        // If memberships plugin isn’t present, optionally block or allow
+        return new WP_Error(
+            'memberships_missing',
+            'Membership system unavailable. Please contact support.',
+            [ 'status' => 503 ]
+        );
+    }
+
+    // 3. Generate and store token
     $token = bin2hex( random_bytes(16) );
     update_user_meta( $user->ID, '_api_token', $token );
 
