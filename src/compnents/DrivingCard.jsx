@@ -5,6 +5,8 @@ import JobTitleStep from "./JobTitleStep";
 import JobDescriptionStep from "./JobDescriptionStep";
 import QuestionStep from "./QuestionStep";
 import DrivingQuestionStep from "./DrivingQuestion";
+import { showSuccess } from '../utils/toast.jsx';
+import { FaCheckCircle } from 'react-icons/fa';
 
 // The main container that holds the stepper and card and manages state.
 const DrivingStepperCard = () => {
@@ -26,9 +28,9 @@ const DrivingStepperCard = () => {
   // Final submission after all steps are complete.
   const handleFinalSubmit = (data) => {
     const finalData = { ...collectedData, ...data };
-    console.log("Submitting final data:", finalData);
+    showSuccess('Data submitted successfully!');
     // Replace with your API call.
-    alert("Data submitted successfully!");
+    // alert("Data submitted successfully!");
   };
 
   return (

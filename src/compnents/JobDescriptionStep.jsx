@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import toast from "react-hot-toast";
+import { showError } from '../utils/toast.jsx';
 import { useLanguageStore } from "../store/useLanguageStore";
 
 
@@ -18,7 +18,7 @@ const JobDescriptionStep = ({ data, onNext, onBack, title }) => {
 
   const handleNext = () => {
     if (!title.trim() || !data.questionCount || data.questionCount < 5) {
-      toast.error(t.jobDescriptionError);
+      showError(t.jobDescriptionError);
       return;
     }
     onNext({ jobDescription });
