@@ -59,9 +59,9 @@ function LoginPage() {
         <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden animate-fade-in-up">
           {/* Header */}
           <div className="bg-gradient-to-r from-red-600 to-red-700 px-8 py-6 text-center">
-            <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-pulse-slow">
+            {/* <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-pulse-slow">
               <FaSignInAlt className="text-red-600 text-3xl" />
-            </div>
+            </div> */}
             <h2 className="text-2xl font-bold text-white ">
               {t.welcome}
             </h2>
