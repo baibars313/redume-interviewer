@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Left cyan base shape -->
+  <path d="M4 16C4 8.268 10.268 2 18 2H34L52 20V36C52 43.732 45.732 50 38 50H18C10.268 50 4 43.732 4 36V16Z" fill="#4CD1F6"/>
+  
+  <!-- Right blue overlay shape -->
+  <path d="M34 2L52 20V36C52 43.732 45.732 50 38 50H18L34 2Z" fill="#1E62F1"/>
+
+  <!-- Central white square with dark border (to mimic the "cut-out" or screen) -->
+  <rect x="24" y="22" width="16" height="16" rx="2" fill="white" stroke="#0B1430" stroke-width="2"/>
+
+  <!-- Optional bold "H" if desired inside the square -->
+  <!-- <text x="32" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#0B1430">H</text> -->
+</svg>
