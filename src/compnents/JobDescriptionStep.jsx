@@ -42,7 +42,7 @@ const JobDescriptionStep = ({ data, onNext, onBack, title }) => {
 
       <div className="flex justify-end text-sm mb-4">
         <span className={`${wordCount < 100 ? "text-red-500" : "text-gray-500"}`}>
-          {wordCount} / 100 {t.wordCountLabel}
+          {wordCount} / 2000 {t.wordCountLabel}
         </span>
       </div>
 
