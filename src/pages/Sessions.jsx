@@ -96,7 +96,7 @@ const SessionTable = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4 gradient-text animate-fade-in-up">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4 ">
             Interview Sessions
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto animate-fade-in-up">

@@ -62,7 +62,7 @@ function LoginPage() {
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg animate-pulse-slow">
               <FaSignInAlt className="text-red-600 text-3xl" />
             </div>
-            <h2 className="text-2xl font-bold text-white gradient-text">
+            <h2 className="text-2xl font-bold text-white ">
               {t.welcome}
             </h2>
           </div>
